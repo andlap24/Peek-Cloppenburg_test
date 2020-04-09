@@ -2,12 +2,24 @@
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace PeekCloppenburg_tests
 {
     internal class ProductPage : BasePage
     {
         public ProductPage(IWebDriver driver) : base(driver) { }
+
+        IWebElement selectSizePattern;
+        IWebElement dropDownButton;
+        IWebElement sizeVariantsList;
+        IWebElement addButton;
+        IWebElement addToCart;
+        ReadOnlyCollection<IWebElement> sizeSML;
+        ReadOnlyCollection<IWebElement> sizeNumbers;
+        WebDriverWait waitSizeAdvizor;
+        WebDriverWait waitDialogContainer;
+
 
         [Obsolete]
         internal WebDriverWait Wait(int sec)
@@ -17,11 +29,11 @@ namespace PeekCloppenburg_tests
 
         internal IWebElement SelectSize(char size)
         {
-            var selectSizePattern = Driver.FindElement(By.XPath("//*[@class='formDropdown-toggle product-selectedSize']"));
-            var dropDownButton = selectSizePattern.FindElement(By.XPath("//*[@class='formDropdown-toggleIcon icon-arrow-down']"));
+            selectSizePattern = Driver.FindElement(By.XPath("//*[@class='formDropdown-toggle product-selectedSize']"));
+            dropDownButton = selectSizePattern.FindElement(By.XPath("//*[@class='formDropdown-toggleIcon icon-arrow-down']"));
             dropDownButton.Click();
-            var sizeVariantsList = Driver.FindElement(By.XPath("//*[@class='product - sizeVariantsList qa - pdp - size - list'][@id='pdpSizeList']"));
-            var sizeSML = sizeVariantsList.FindElements(By.XPath("//*[@class='product - sizeLabel']"));
+            sizeVariantsList = Driver.FindElement(By.XPath("//*[@class='product - sizeVariantsList qa - pdp - size - list'][@id='pdpSizeList']"));
+            sizeSML = sizeVariantsList.FindElements(By.XPath("//*[@class='product - sizeLabel']"));
 
             switch (size)
             {
@@ -38,22 +50,22 @@ namespace PeekCloppenburg_tests
 
         internal IWebElement SelectSize(int size)
         {
-            var selectSizePattern = Driver.FindElement(By.XPath("//*[@class='formDropdown-toggle product-selectedSize']"));
-            var dropDownButton = selectSizePattern.FindElement(By.XPath("//*[@class='formDropdown-toggleIcon icon-arrow-down']"));
+            selectSizePattern = Driver.FindElement(By.XPath("//*[@class='formDropdown-toggle product-selectedSize']"));
+            dropDownButton = selectSizePattern.FindElement(By.XPath("//*[@class='formDropdown-toggleIcon icon-arrow-down']"));
             dropDownButton.Click();
-            var sizeVariantsList = Driver.FindElement(By.XPath("//*[@class='formDropdown-collapsibleArea']"));
-            var sizeNumbers = sizeVariantsList.FindElements(By.XPath("//*[@class='product-sizeLabel']"));
-            
+            sizeVariantsList = Driver.FindElement(By.XPath("//*[@class='formDropdown-collapsibleArea']"));
+            sizeNumbers = sizeVariantsList.FindElements(By.XPath("//*[@class='product-sizeLabel']"));
+
             int sizeListCount = sizeNumbers.Count;
             int counter;
-            var sizeList = new List<int>();
+            List<int> sizeList = new List<int>();
 
             for (counter = 0; counter < sizeListCount; counter++)
             {
                 sizeList.Add(int.Parse(sizeNumbers[counter].Text));
             }
 
-            if(sizeList.Contains(size))
+            if (sizeList.Contains(size))
             {
                 var index = sizeList.IndexOf(size);
                 return sizeNumbers[index];
@@ -67,19 +79,19 @@ namespace PeekCloppenburg_tests
         [Obsolete]
         internal void AddToCart()
         {
-            WebDriverWait waitSizeAdvizor = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
+            waitSizeAdvizor = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
             waitSizeAdvizor.Until(ExpectedConditions.ElementToBeClickable
                 (By.XPath("//*[@class='button--naked qa-fitanalytics-size-advisor tlm-fitanalytics-size-advisor']")));
 
-            var addButton = Driver.FindElement(By.CssSelector(".qa-add-to-cart"));
+            addButton = Driver.FindElement(By.CssSelector(".qa-add-to-cart"));
             Wait(3);
             addButton.Click();
 
-            WebDriverWait waitDialogContainer = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
+            waitDialogContainer = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
             waitDialogContainer.Until(ExpectedConditions.ElementIsVisible
                 (By.XPath("//*[@class='dialog-container qa-dialog-container']")));
 
-            var addToCart = Driver.FindElement(By.CssSelector(".qa-pdp-to-cart"));
+            addToCart = Driver.FindElement(By.CssSelector(".qa-pdp-to-cart"));
             Wait(3);
             addToCart.Click();
         }

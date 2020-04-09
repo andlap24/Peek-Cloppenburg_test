@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using System;
+using System.Collections.ObjectModel;
 
 namespace PeekCloppenburg_tests
 {
@@ -7,15 +8,13 @@ namespace PeekCloppenburg_tests
     {
         public SearchResultPage(IWebDriver driver) : base(driver) { }
 
-        public string SearchResult()
-        {
-            return Driver.FindElement(By.XPath("//*[@class='seo-headline qa-seo-headline']")).TagName;
-        }
+        IWebElement resultPage;
+        ReadOnlyCollection<IWebElement> resultList;
 
         public void OpenProductPage(int num)
         {
-            var resultPage = Driver.FindElement(By.XPath("//*[@class='productList has-productTileHover qa-product-list']"));
-            var resultList = resultPage.FindElements(By.XPath("//*[@class='productTile-brand qa-product-tile-brand']"));
+            resultPage = Driver.FindElement(By.XPath("//*[@class='productList has-productTileHover qa-product-list']"));
+            resultList = resultPage.FindElements(By.XPath("//*[@class='productTile-brand qa-product-tile-brand']"));
 
             if (num == 1)
             {

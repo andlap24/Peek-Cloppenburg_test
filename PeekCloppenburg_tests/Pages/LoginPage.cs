@@ -6,15 +6,18 @@ namespace PeekCloppenburg_tests
     {
         public LoginPage(IWebDriver driver) : base(driver) { }
 
-        public void SignIn()
+        IWebElement loginEmail;
+        IWebElement loginPassword;
+
+        public void SignIn(string email, string password)
         {
-            var loginEmail = Driver.FindElement(By.Id("email-login"));
-            var loginPassword = Driver.FindElement(By.Id("password-login"));
+            loginEmail = Driver.FindElement(By.Id("email-login"));
+            loginPassword = Driver.FindElement(By.Id("password-login"));
 
             loginEmail.Click();
-            loginEmail.SendKeys("test@gmail.com");
+            loginEmail.SendKeys(email);
             loginPassword.Click();
-            loginPassword.SendKeys("123456789" + Keys.Enter);
+            loginPassword.SendKeys(password + Keys.Enter);
         }
     }
 }

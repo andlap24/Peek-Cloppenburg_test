@@ -9,15 +9,21 @@ namespace PeekCloppenburg_tests
     {
         protected IWebDriver Driver { get; set; }
 
+        HomePage homePage;
+        SearchResultPage searchResultPage;
+        ProductPage productPage;
+        LoginPage loginPage;
+        Header header;
+
         [Test]
         [Description("Search and adding 1 item in to bag")]
         [Obsolete]
         public void SearchElementsTest()
         {
             Driver = GetDriver.GetChromeDriver();
-            var homePage = new HomePage(Driver);
-            var searchResultPage = new SearchResultPage(Driver);
-            var productPage = new ProductPage(Driver);
+            homePage = new HomePage(Driver);
+            searchResultPage = new SearchResultPage(Driver);
+            productPage = new ProductPage(Driver);
 
             homePage.Open();
             homePage.GetSearchElement("michael kors monroe trainer".ToUpper());
@@ -32,9 +38,9 @@ namespace PeekCloppenburg_tests
         public void LoginPageTest()
         {
             Driver = GetDriver.GetChromeDriver();
-            var homePage = new HomePage(Driver);
-            var loginPage = new LoginPage(Driver);
-            var header = new Header(Driver);
+            homePage = new HomePage(Driver);
+            loginPage = new LoginPage(Driver);
+            header = new Header(Driver);
 
             homePage.Open();
             header.GetUserBar("login").Click();

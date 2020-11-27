@@ -3,8 +3,8 @@ Stack: C#, .NetCore, Selenium WebDriver.
 
 `NuGet` packages I'm using:
 
-- [Selenium.WebDriver][nuget-selenium-webdriver]
-- [Selenium.WebDriver.ChromeDriver][nuget-selenium-chromedriver]
+- [Selenium WebDriver](https://www.nuget.org/packages/Selenium.WebDriver/)
+- [ChromeDriver](https://www.nuget.org/packages/Selenium.WebDriver.ChromeDriver/)
 - `Chrome` needs to be installed*
 
 #### Clone the git repo
